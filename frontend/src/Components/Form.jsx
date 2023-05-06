@@ -21,7 +21,7 @@ export const Form = () => {
   const [step, setStep] = useState(1);
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
-  const [wheel, setWheel] = useState("");
+  const [wheels, setWheels] = useState("");
   const [vehicle, setVehicle] = useState("car");
   const [model, setModel] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -34,12 +34,37 @@ export const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(FirstName, wheel, vehicle, model, startDate, endDate);
-    axios.post("http://localhost:8080/api/booking")
+    console.log(
+      FirstName,
+      LastName,
+      wheels,
+      vehicle,
+      model,
+      startDate,
+      endDate
+    );
+    const data = {
+      FirstName,
+      LastName,
+      wheels,
+      vehicle,
+      model,
+      startDate,
+      endDate,
+    };
+    axios.post("http://localhost:8080/api/booking", data).then((res) => {
+      console.log(res.data.message);
+      toast({
+        title: `${res.data.message}`,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    });
   };
 
   useEffect(() => {
-    if (wheel == 2) {
+    if (wheels == 2) {
       axios.get("http://localhost:8080/api/bikes").then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -50,7 +75,7 @@ export const Form = () => {
         setData(res.data);
       });
     }
-  }, [wheel]);
+  }, [wheels]);
 
   const handleNextStep = () => {
     if (
@@ -58,7 +83,7 @@ export const Form = () => {
       !LastName == ""
       // !startDate == "" &&
       // !endDate === "" &&
-      // !wheel == ""
+      // !wheels == ""
     ) {
       setStep((prevStep) => prevStep + 1);
       setProgress(progress + 20);
@@ -150,14 +175,14 @@ export const Form = () => {
                 fontWeight="normal"
                 mb="2%"
               >
-                Choose the wheels for your Vehicle
+                Choose the wheelss for your Vehicle
               </Heading>
               <FormControl as="fieldset">
-                <FormLabel as="legend">Number of Wheels</FormLabel>
+                <FormLabel as="legend">Number of wheelss</FormLabel>
                 <RadioGroup
-                  onChange={setWheel}
-                  value={wheel}
-                  name="wheels"
+                  onChange={setWheels}
+                  value={wheels}
+                  name="wheelss"
                   defaultValue="2"
                 >
                   <HStack spacing={4}>
@@ -202,7 +227,7 @@ export const Form = () => {
                   defaultValue="car"
                   value={vehicle}
                 >
-                  {wheel == 2
+                  {wheels == 2
                     ? data?.map((ele) => {
                         // console.log(data.length);
                         return (
@@ -258,7 +283,7 @@ export const Form = () => {
                   defaultValue="toyota"
                   value={model}
                 >
-                  {wheel == 2
+                  {wheels == 2
                     ? data?.map((ele) => {
                         // console.log(data.length);
                         return (
