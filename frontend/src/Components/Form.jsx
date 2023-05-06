@@ -2,10 +2,8 @@ import { useState } from "react";
 import {
   Box,
   Button,
-  Checkbox,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
   HStack,
   Heading,
@@ -13,19 +11,15 @@ import {
   Progress,
   Radio,
   RadioGroup,
-  Select,
   Stack,
-  Text,
-  Textarea,
-  VStack,
 } from "@chakra-ui/react";
 
 export const Form = () => {
   const [step, setStep] = useState(1);
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
-  const [wheel, setWheel] = useState("");
-  const [vehicle, setVehicle] = useState("");
+  const [wheel, setWheel] = useState("2");
+  const [vehicle, setVehicle] = useState("car");
   const [model, setModel] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -40,8 +34,9 @@ export const Form = () => {
     if (
       !FirstName == "" ||
       !LastName == "" ||
-      !startDate === "" ||
-      !endDate === ""
+      !startDate == "" ||
+      !endDate === "" ||
+      wheel == ""
     ) {
       setStep((prevStep) => prevStep + 1);
       setProgress(progress + 20);
@@ -70,7 +65,7 @@ export const Form = () => {
         mx="5%"
         isAnimated
       ></Progress>
-      {/* <Stack> */}
+
       <form onSubmit={handleSubmit}>
         <Stack>
           {step === 1 && (
@@ -81,7 +76,7 @@ export const Form = () => {
                 fontWeight="normal"
                 mb="2%"
               >
-                User Registration
+                Your Name
               </Heading>
               <FormControl>
                 <FormLabel>First Name</FormLabel>
@@ -119,7 +114,7 @@ export const Form = () => {
                 fontWeight="normal"
                 mb="2%"
               >
-                User Registration
+                Choose the wheels for your Vehicle
               </Heading>
               <FormControl as="fieldset">
                 <FormLabel as="legend">Number of Wheels</FormLabel>
@@ -153,7 +148,7 @@ export const Form = () => {
                 fontWeight="normal"
                 mb="2%"
               >
-                User Registration
+                Choose your type of Vehicle
               </Heading>
               <FormControl as="fieldset">
                 <FormLabel as="legend">Type of Vehicle</FormLabel>
@@ -187,7 +182,7 @@ export const Form = () => {
                 fontWeight="normal"
                 mb="2%"
               >
-                User Registration
+                Choose your desired Model
               </Heading>
               <FormControl as="fieldset">
                 <FormLabel as="legend">Specific Model</FormLabel>
@@ -247,7 +242,6 @@ export const Form = () => {
           )}
         </Stack>
       </form>
-      {/* </Stack> */}
     </Box>
   );
 };
