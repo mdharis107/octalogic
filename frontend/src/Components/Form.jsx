@@ -52,7 +52,7 @@ export const Form = () => {
       startDate,
       endDate,
     };
-    axios.post("http://localhost:8080/api/booking", data).then((res) => {
+    axios.post("https://octalogic.onrender.com/api/booking", data).then((res) => {
       console.log(res.data.message);
       toast({
         title: `${res.data.message}`,
@@ -65,12 +65,12 @@ export const Form = () => {
 
   useEffect(() => {
     if (wheels == 2) {
-      axios.get("http://localhost:8080/api/bikes").then((res) => {
+      axios.get("https://octalogic.onrender.com/api/bikes").then((res) => {
         console.log(res.data);
         setData(res.data);
       });
     } else {
-      axios.get("http://localhost:8080/api/cars").then((res) => {
+      axios.get("https://octalogic.onrender.com/api/cars").then((res) => {
         console.log(res.data);
         setData(res.data);
       });
