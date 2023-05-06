@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -12,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 
 export const Form = () => {
@@ -24,6 +26,7 @@ export const Form = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [progress, setProgress] = useState(20);
+  const toast = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,6 +43,14 @@ export const Form = () => {
     ) {
       setStep((prevStep) => prevStep + 1);
       setProgress(progress + 20);
+    } else {
+      toast({
+        title: "Error going to Next",
+        description: "Fill all the Details",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
     }
     return;
   };
@@ -67,9 +78,9 @@ export const Form = () => {
       ></Progress>
 
       <form onSubmit={handleSubmit}>
-        <Stack>
+        <Stack >
           {step === 1 && (
-            <Stack spacing={4}>
+            <Stack w={"80%"} m={"auto"} alignItems={"center"} spacing={4}>
               <Heading
                 w="100%"
                 textAlign={"center"}
@@ -99,15 +110,21 @@ export const Form = () => {
               </FormControl>
 
               <HStack spacing={4}>
-                <Button onClick={handleNextStep}>Next</Button>
+                <Button
+                  colorScheme="teal"
+                  variant={"outline"}
+                  onClick={handleNextStep}
+                >
+                  Next
+                </Button>
               </HStack>
             </Stack>
           )}
         </Stack>
 
-        <Stack>
+        <Stack alignItems={"center"}>
           {step === 2 && (
-            <Stack spacing={4}>
+            <Stack alignItems={"center"} spacing={4}>
               <Heading
                 w="100%"
                 textAlign={"center"}
@@ -132,16 +149,24 @@ export const Form = () => {
               </FormControl>
 
               <HStack spacing={4}>
-                <Button onClick={handlePreviousStep}>Previous</Button>
-                <Button onClick={handleNextStep}>Next</Button>
+                <Button colorScheme="teal" onClick={handlePreviousStep}>
+                  Previous
+                </Button>
+                <Button
+                  colorScheme="teal"
+                  variant={"outline"}
+                  onClick={handleNextStep}
+                >
+                  Next
+                </Button>
               </HStack>
             </Stack>
           )}
         </Stack>
 
-        <Stack>
+        <Stack alignItems={"center"}>
           {step === 3 && (
-            <Stack spacing={4}>
+            <Stack alignItems={"center"} spacing={4}>
               <Heading
                 w="100%"
                 textAlign={"center"}
@@ -166,16 +191,24 @@ export const Form = () => {
               </FormControl>
 
               <HStack spacing={4}>
-                <Button onClick={handlePreviousStep}>Previous</Button>
-                <Button onClick={handleNextStep}>Next</Button>
+                <Button colorScheme="teal" onClick={handlePreviousStep}>
+                  Previous
+                </Button>
+                <Button
+                  colorScheme="teal"
+                  variant={"outline"}
+                  onClick={handleNextStep}
+                >
+                  Next
+                </Button>
               </HStack>
             </Stack>
           )}
         </Stack>
 
-        <Stack>
+        <Stack  alignItems={"center"}>
           {step === 4 && (
-            <Stack spacing={4}>
+            <Stack  alignItems={"center"}  spacing={4}>
               <Heading
                 w="100%"
                 textAlign={"center"}
@@ -184,8 +217,9 @@ export const Form = () => {
               >
                 Choose your desired Model
               </Heading>
-              <FormControl as="fieldset">
-                <FormLabel as="legend">Specific Model</FormLabel>
+              
+              <FormControl   as="fieldset">
+                <FormLabel  as="legend">Specific Model</FormLabel>
                 <RadioGroup
                   onChange={setModel}
                   name="vehicleModel"
@@ -193,15 +227,23 @@ export const Form = () => {
                   value={model}
                 >
                   <HStack spacing={4}>
-                    <Radio value="toyota">Toyota</Radio>
+                    <Radio  value="toyota">Toyota</Radio>
                     <Radio value="honda">Honda</Radio>
                   </HStack>
                 </RadioGroup>
               </FormControl>
 
               <HStack spacing={4}>
-                <Button onClick={handlePreviousStep}>Previous</Button>
-                <Button onClick={handleNextStep}>Next</Button>
+                <Button colorScheme="teal" onClick={handlePreviousStep}>
+                  Previous
+                </Button>
+                <Button
+                  colorScheme="teal"
+                  variant={"outline"}
+                  onClick={handleNextStep}
+                >
+                  Next
+                </Button>
               </HStack>
             </Stack>
           )}
@@ -233,11 +275,16 @@ export const Form = () => {
                   name="endDate"
                 />
               </FormControl>
-
-              <HStack spacing={4}>
-                <Button onClick={handlePreviousStep}>Previous</Button>
-                <Button type="submit">Submit</Button>
-              </HStack>
+              <Center>
+                <HStack spacing={4}>
+                  <Button colorScheme="teal" onClick={handlePreviousStep}>
+                    Previous
+                  </Button>
+                  <Button colorScheme="red" type="submit">
+                    Submit
+                  </Button>
+                </HStack>
+              </Center>
             </Stack>
           )}
         </Stack>
