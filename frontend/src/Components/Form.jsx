@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -15,31 +15,50 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 export const Form = () => {
   const [step, setStep] = useState(1);
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
-  const [wheel, setWheel] = useState("2");
+  const [wheel, setWheel] = useState("");
   const [vehicle, setVehicle] = useState("car");
   const [model, setModel] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [progress, setProgress] = useState(20);
   const toast = useToast();
+  const [data, setData] = useState([]);
+  const evenLengthData = data.filter((ele) => ele.length % 2 == 0);
+  // console.log(evenLengthData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(FirstName, wheel, vehicle, model, startDate, endDate);
+    // console.log(FirstName, wheel, vehicle, model, startDate, endDate);
+    console.log(wheel, vehicle);
   };
+
+  useEffect(() => {
+    if (wheel == 2) {
+      axios.get("http://localhost:8080/api/bikes").then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
+    } else {
+      axios.get("http://localhost:8080/api/cars").then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
+    }
+  }, [wheel]);
 
   const handleNextStep = () => {
     if (
-      !FirstName == "" ||
-      !LastName == "" ||
-      !startDate == "" ||
-      !endDate === "" ||
-      wheel == ""
+      !FirstName == "" &&
+      !LastName == ""
+      // !startDate == "" &&
+      // !endDate === "" &&
+      // !wheel == ""
     ) {
       setStep((prevStep) => prevStep + 1);
       setProgress(progress + 20);
@@ -78,7 +97,7 @@ export const Form = () => {
       ></Progress>
 
       <form onSubmit={handleSubmit}>
-        <Stack >
+        <Stack>
           {step === 1 && (
             <Stack w={"80%"} m={"auto"} alignItems={"center"} spacing={4}>
               <Heading
@@ -183,10 +202,23 @@ export const Form = () => {
                   defaultValue="car"
                   value={vehicle}
                 >
-                  <HStack spacing={4}>
-                    <Radio value="car">Car</Radio>
-                    <Radio value="motorcycle">Motorcycle</Radio>
-                  </HStack>
+                  {wheel == 2
+                    ? data?.map((ele) => {
+                        // console.log(data.length);
+                        return (
+                          <HStack key={ele._id} spacing={4}>
+                            <Radio value={ele.type}>{ele.type}</Radio>
+                          </HStack>
+                        );
+                      })
+                    : data.slice(1, 3).map((ele) => {
+                        // console.log(data.length);
+                        return (
+                          <HStack key={ele._id} spacing={4}>
+                            <Radio value={ele.type}>{ele.type}</Radio>
+                          </HStack>
+                        );
+                      })}
                 </RadioGroup>
               </FormControl>
 
@@ -206,9 +238,9 @@ export const Form = () => {
           )}
         </Stack>
 
-        <Stack  alignItems={"center"}>
+        <Stack alignItems={"center"}>
           {step === 4 && (
-            <Stack  alignItems={"center"}  spacing={4}>
+            <Stack alignItems={"center"} spacing={4}>
               <Heading
                 w="100%"
                 textAlign={"center"}
@@ -217,19 +249,32 @@ export const Form = () => {
               >
                 Choose your desired Model
               </Heading>
-              
-              <FormControl   as="fieldset">
-                <FormLabel  as="legend">Specific Model</FormLabel>
+
+              <FormControl as="fieldset">
+                <FormLabel as="legend">Specific Model</FormLabel>
                 <RadioGroup
                   onChange={setModel}
                   name="vehicleModel"
                   defaultValue="toyota"
                   value={model}
                 >
-                  <HStack spacing={4}>
-                    <Radio  value="toyota">Toyota</Radio>
-                    <Radio value="honda">Honda</Radio>
-                  </HStack>
+                  {wheel == 2
+                    ? data?.map((ele) => {
+                        // console.log(data.length);
+                        return (
+                          <HStack key={ele._id} spacing={4}>
+                            <Radio value={ele.model}>{ele.model}</Radio>
+                          </HStack>
+                        );
+                      })
+                    : data.map((ele) => {
+                        // console.log(data.length);
+                        return (
+                          <HStack key={ele._id} spacing={4}>
+                            <Radio value={ele.model}>{ele.model}</Radio>
+                          </HStack>
+                        );
+                      })}
                 </RadioGroup>
               </FormControl>
 
