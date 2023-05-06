@@ -1,14 +1,14 @@
 
-const { carData } = require("../data/car.data");
-const { Car } = require("../models/cars.model");
+// const { carData } = require("../data/car.data");
+// const { Car } = require("../models/cars.model");
 
 
-const seedCarData = async () => {
-  await Car.deleteMany({});
+// const seedCarData = async () => {
+//   await Car.deleteMany({});
 
-  await Car.create(carData);
+//   await Car.create(carData);
 
-  console.log("Car Database seeded successfully");
-};
+//   console.log("Car Database seeded successfully");
+// };
 
-module.exports = { seedCarData };
+// module.exports = { seedCarData };
