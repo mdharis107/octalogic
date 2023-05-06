@@ -34,8 +34,8 @@ export const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(FirstName, wheel, vehicle, model, startDate, endDate);
-    console.log(wheel, vehicle);
+    console.log(FirstName, wheel, vehicle, model, startDate, endDate);
+    axios.post("http://localhost:8080/api/booking")
   };
 
   useEffect(() => {
